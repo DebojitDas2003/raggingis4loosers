@@ -50,9 +50,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.fragment_home_page)
 
-        val button = findViewById<Button>(@)
+        val button = findViewById<Button>(R.id.button)
         button.setOnClickListener {
             if (isRecording) {
                 stopRecording()
@@ -132,7 +132,46 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun stopRecording() {
-        TODO("Not yet implemented")
+        try {
+            // Stop media recorder and release its resources
+            mediaRecorder.stop()
+            mediaRecorder.reset()
+
+            // Release the camera
+            closeCamera()
+
+            // Update UI and reset recording state
+            isRecording = false
+            button.text = "Start Recording"
+        } catch (e: Exception) {
+            Log.e(TAG, "Error stopping recording: ${e.message}")
+        }
+    }
+
+    private fun closeCamera() {
+        try {
+            // Close the camera capture session
+            cameraCaptureSession.close()
+            cameraCaptureSession = null
+
+            // Close the camera device
+            cameraDevice.close()
+            cameraDevice = null
+
+            // Release the media recorder
+            mediaRecorder.release()
+            mediaRecorder = null
+
+            // Release the background thread and handler
+            backgroundThread.quitSafely()
+            backgroundThread.join()
+
+            // Reset the background thread and handler
+            backgroundThread = null
+            backgroundHandler = null
+        } catch (e: Exception) {
+            Log.e(TAG, "Error closing camera: ${e.message}")
+        }
     }
 
     override fun onDestroy() {
@@ -147,7 +186,7 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    private val TAG = "MainActivity"
+    private val TAG = "HomePage"
 
     private fun startRecording() {
         if (checkPermissions()) {
@@ -172,16 +211,55 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun startCaptureSession() {
-        TODO("Not yet implemented")
+    private fun setupMediaRecorder() {
+        mediaRecorder = MediaRecorder()
+
+        // Set the output file path
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val videoFilePath = "${getExternalFilesDir(Environment.DIRECTORY_MOVIES)}/$timeStamp.mp4"
+        mediaRecorder.setOutputFile(videoFilePath)
+
+        // Set video and audio sources
+        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+
+        // Set video and audio output formats and encoders
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+
+        // Set video size and frame rate (adjust according to your needs)
+        mediaRecorder.setVideoSize(1280, 720)
+        mediaRecorder.setVideoFrameRate(30)
+
+        // Prepare the MediaRecorder
+        mediaRecorder.prepare()
     }
+
 
     private fun setupMediaRecorder() {
         TODO("Not yet implemented")
     }
 
     private fun setupCamera() {
-        TODO("Not yet implemented")
+        val cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
+        val cameraId = cameraManager.cameraIdList[0] // Use the first available camera (you can choose a specific camera if needed)
+
+        cameraManager.openCamera(cameraId, object : CameraDevice.StateCallback() {
+            override fun onOpened(camera: CameraDevice) {
+                // The camera is now open and ready for use
+                cameraDevice = camera
+                createCaptureSession()
+            }
+
+            override fun onDisconnected(camera: CameraDevice) {
+                // Handle camera disconnect (e.g., release resources)
+            }
+
+            override fun onError(camera: CameraDevice, error: Int) {
+                // Handle camera error (e.g., release resources)
+            }
+        }, null)
     }
 
     private fun checkPermissions(): Boolean {
