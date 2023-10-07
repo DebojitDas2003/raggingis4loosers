@@ -15,5 +15,5 @@
         <item name="android:statusBarColor" >@color/lavender</item>
     </style>
 
-    <style name="Theme.raggingis4loosers" parent="Base.Theme.raggingis4loosers" />
+    <style name="Base.Theme.raggingis4loosers" parent="Theme.AppCompat.Light.NoActionBar" />
 </resources>
