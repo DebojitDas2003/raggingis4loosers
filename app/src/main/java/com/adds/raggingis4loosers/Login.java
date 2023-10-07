@@ -1,4 +1,4 @@
-package com.adds.raggingis4loosers.;
+package com.adds.raggingis4loosers;
 
 import android.content.Intent;
 import android.os.Bundle;
