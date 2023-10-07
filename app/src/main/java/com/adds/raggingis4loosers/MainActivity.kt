@@ -1,5 +1,6 @@
 package com.adds.raggingis4loosers
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.camera2.CameraAccessException
@@ -142,7 +143,7 @@ class MainActivity : AppCompatActivity() {
 
             // Update UI and reset recording state
             isRecording = false
-            button.text = "Start Recording"
+//            button.text = "Start Recording"
         } catch (e: Exception) {
             Log.e(TAG, "Error stopping recording: ${e.message}")
         }
@@ -193,7 +194,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun startRecording() {
         if (checkPermissions()) {
-            try {
+            var any = try {
                 // Initialize the media recorder
                 mediaRecorder = MediaRecorder()
 
@@ -207,37 +208,17 @@ class MainActivity : AppCompatActivity() {
                 // Start recording
                 mediaRecorder.start()
                 isRecording = true
-                button.text = "Stop Recording"
+//                button.text = "Stop Recording"
             } catch (e: Exception) {
                 Log.e(TAG, "Error starting recording: ${e.message}")
             }
         }
     }
 
-    private fun setupMediaRecorder() {
-        mediaRecorder = MediaRecorder()
-
-        // Set the output file path
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val videoFilePath = "${getExternalFilesDir(Environment.DIRECTORY_MOVIES)}/$timeStamp.mp4"
-        mediaRecorder.setOutputFile(videoFilePath)
-
-        // Set video and audio sources
-        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-
-        // Set video and audio output formats and encoders
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-
-        // Set video size and frame rate (adjust according to your needs)
-        mediaRecorder.setVideoSize(1280, 720)
-        mediaRecorder.setVideoFrameRate(30)
-
-        // Prepare the MediaRecorder
-        mediaRecorder.prepare()
+    private fun startCaptureSession() {
+        TODO("Not yet implemented")
     }
+
 
 
     private fun setupMediaRecorder() {
@@ -301,38 +282,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createCaptureSession() {
-        try {
-            // Create a list of surfaces you want to include in the capture session
-            val surfaces = listOf(surfaceView.holder.surface) // Replace surfaceView with your SurfaceView or target surface
-
-            // Create a CaptureRequest.Builder for the camera
-            val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
-
-            // Add the surfaces to the capture request
-            for (surface in surfaces) {
-                captureRequestBuilder.addTarget(surface)
-            }
-
-            // Create a CaptureSession.StateCallback
-            val sessionCallback = object : CameraCaptureSession.StateCallback() {
-                override fun onConfigured(session: CameraCaptureSession) {
-                    // The capture session is configured successfully.
-                    // You can start capturing frames or preview here.
-                    cameraCaptureSession = session
-                    // Start the preview here or whatever you want to do with the camera.
-                }
-
-                override fun onConfigureFailed(session: CameraCaptureSession) {
-                    // Configuration of the capture session failed.
-                    // Handle the error.
-                }
-            }
-
-            // Create the capture session with the specified surfaces and callback
-            cameraDevice.createCaptureSession(surfaces, sessionCallback, null)
-        } catch (e: CameraAccessException) {
-            e.printStackTrace()
-        }
+        TODO("Yet to be implemented")
     }
 
 
