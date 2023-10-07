@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Raggingis4loosers" parent="Theme.AppCompat.Light">
+        <!-- Define your theme attributes here -->
+    </style>
+</resources>

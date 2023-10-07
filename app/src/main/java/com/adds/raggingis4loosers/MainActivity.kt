@@ -150,9 +150,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun closeCamera() {
         try {
+            var cameraCaptureSession: CameraCaptureSession? = null
+
             // Close the camera capture session
-            cameraCaptureSession.close()
-            cameraCaptureSession = null
+            if (cameraCaptureSession != null) {
+                cameraCaptureSession.close()
+            }
 
             // Close the camera device
             cameraDevice.close()
@@ -266,6 +269,20 @@ class MainActivity : AppCompatActivity() {
         val cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
         val cameraId = cameraManager.cameraIdList[0] // Use the first available camera (you can choose a specific camera if needed)
 
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
         cameraManager.openCamera(cameraId, object : CameraDevice.StateCallback() {
             override fun onOpened(camera: CameraDevice) {
                 // The camera is now open and ready for use

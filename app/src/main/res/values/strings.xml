@@ -24,19 +24,7 @@
     <!-- ListPreference Dialog Title -->
     <string name="theme_list_dialog_title">Choose App Theme</string>
 
-    <!-- ListPreference Entry Labels -->
-    <string-array name="theme_entries">
-        <item>Light Theme</item>
-        <item>Dark Theme</item>
-        <item>System Default</item>
-    </string-array>
 
-    <!-- ListPreference Entry Values -->
-    <string-array name="theme_values">
-        <item>light</item>
-        <item>dark</item>
-        <item>system_default</item>
-    </string-array>
 
      <string name="sos">SOS</string>
 
