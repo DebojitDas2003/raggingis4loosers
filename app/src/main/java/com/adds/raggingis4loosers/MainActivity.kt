@@ -152,18 +152,26 @@ class MainActivity : AppCompatActivity() {
     private fun closeCamera() {
         try {
             var cameraCaptureSession: CameraCaptureSession? = null
-
+            cameraCaptureSession?.close()
             // Close the camera capture session
             if (cameraCaptureSession != null) {
                 cameraCaptureSession.close()
             }
+            cameraDevice?.close()
+            var cameraDevice: CameraDevice? = null
 
             // Close the camera device
-            cameraDevice.close()
+            if (cameraDevice != null) {
+                cameraDevice.close()
+            }
             cameraDevice = null
 
             // Release the media recorder
-            mediaRecorder.release()
+            var mediaRecorder: MediaRecorder? = null
+
+            if (mediaRecorder != null) {
+                mediaRecorder.release()
+            }
             mediaRecorder = null
 
             // Release the background thread and handler
@@ -171,7 +179,12 @@ class MainActivity : AppCompatActivity() {
             backgroundThread.join()
 
             // Reset the background thread and handler
+            var backgroundThread: HandlerThread? = null
+
             backgroundThread = null
+
+            var backgroundHandler: Handler? = null
+
             backgroundHandler = null
         } catch (e: Exception) {
             Log.e(TAG, "Error closing camera: ${e.message}")

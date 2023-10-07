@@ -39,6 +39,8 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
+        dataBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
@@ -61,12 +63,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-<<<<<<< HEAD
-=======
     implementation("com.google.firebase:firebase-auth:22.1.2")
     implementation("com.google.firebase:firebase-firestore:24.8.1")
     implementation("androidx.preference:preference:1.2.1")
->>>>>>> a45c2e6aa1dfc49df052defcd9a2e305e2bfd08c
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -76,12 +75,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
-<<<<<<< HEAD
-
     implementation ("org.postgresql:postgresql:42.6.0")
-=======
     implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation ("com.vonage.client:client:2.10.0")
->>>>>>> a45c2e6aa1dfc49df052defcd9a2e305e2bfd08c
 
 }
