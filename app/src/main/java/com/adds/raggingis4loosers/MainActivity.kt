@@ -238,7 +238,28 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setupMediaRecorder() {
-        TODO("Not yet implemented")
+        mediaRecorder = MediaRecorder()
+
+        // Set the output file path
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val videoFilePath = "${getExternalFilesDir(Environment.DIRECTORY_MOVIES)}/$timeStamp.mp4"
+        mediaRecorder.setOutputFile(videoFilePath)
+
+        // Set video and audio sources
+        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+
+        // Set video and audio output formats and encoders
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+
+        // Set video size and frame rate (adjust according to your needs)
+        mediaRecorder.setVideoSize(1280, 720)
+        mediaRecorder.setVideoFrameRate(30)
+
+        // Prepare the MediaRecorder
+        mediaRecorder.prepare()
     }
 
     private fun setupCamera() {
