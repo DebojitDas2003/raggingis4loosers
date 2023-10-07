@@ -12,17 +12,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.adds.raggingis4loosers.databinding.ActivityMainBinding
+import com.adds.raggingis4loosers.ProfilePage
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
     private val REQUEST_RECORD_AUDIO_PERMISSION = 200
     private lateinit var speechRecognizer: SpeechRecognizer
-
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replaceFragment(HomePage())
@@ -32,9 +31,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.contact -> replaceFragment(ContactPage())
                 R.id.profile -> replaceFragment(ProfilePage())
                 R.id.settings -> replaceFragment(SettingsPage())
-
                 else -> {
-
+                    // Handle other cases if needed
                 }
             }
             true
@@ -59,30 +57,35 @@ class MainActivity : AppCompatActivity() {
                 REQUEST_RECORD_AUDIO_PERMISSION
             )
         }
-
         speechRecognizer.setRecognitionListener(object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) {
                 // Called when the recognition service is ready for user speech input.
+                // You can add your implementation here.
             }
 
             override fun onBeginningOfSpeech() {
                 // Called when the user starts speaking.
+                // You can add your implementation here.
             }
 
             override fun onRmsChanged(rmsdB: Float) {
                 // Called when the RMS dB value of the audio changes.
+                // You can add your implementation here.
             }
 
             override fun onBufferReceived(buffer: ByteArray?) {
                 // Called when audio buffer is received.
+                // You can add your implementation here.
             }
 
             override fun onEndOfSpeech() {
                 // Called when the user stops speaking.
+                // You can add your implementation here.
             }
 
             override fun onError(errorCode: Int) {
                 // Called when there's an error during recognition.
+                // You can add your implementation here.
             }
 
             override fun onResults(results: Bundle?) {
@@ -92,10 +95,12 @@ class MainActivity : AppCompatActivity() {
 
             override fun onPartialResults(partialResults: Bundle?) {
                 // Called when partial recognition results are available.
+                // You can add your implementation here.
             }
 
             override fun onEvent(eventType: Int, params: Bundle?) {
                 // Called when an event related to recognition is received.
+                // You can add your implementation here.
             }
         })
 
