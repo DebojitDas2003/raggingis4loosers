@@ -14,6 +14,10 @@ import androidx.fragment.app.Fragment
 import com.adds.raggingis4loosers.databinding.ActivityMainBinding
 import com.adds.raggingis4loosers.ProfilePage
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+
+
 
 class MainActivity : AppCompatActivity() {
     private val REQUEST_RECORD_AUDIO_PERMISSION = 200
@@ -286,6 +290,76 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+ 
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val smsPermissionCode = 101
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+    }
+
+    fun onSendLocationButtonClicked(view: View) {
+        if (checkPermission()) {
+            getLastLocation()
+        } else {
+            requestPermission()
+        }
+    }
+
+    private fun checkPermission(): Boolean {
+        return (ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED)
+    }
+
+    private fun requestPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            smsPermissionCode
+        )
+    }
+
+    private fun getLastLocation() {
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener(this) { location: Location? ->
+                location?.let {
+                    val latitude = it.latitude
+                    val longitude = it.longitude
+                    val message = "My current location: https://maps.google.com/?q=$latitude,$longitude"
+
+                    // Send SMS
+                    sendSMS("1234567890", message)
+
+                    // Send WhatsApp message
+                    sendWhatsAppMessage(message)
+                }
+            }
+    }
+
+    private fun sendSMS(phoneNumber: String, message: String) {
+        try {
+            val smsManager = SmsManager.getDefault()
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+            Toast.makeText(this, "SMS sent successfully!", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Failed to send SMS", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun sendWhatsAppMessage(message: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse("https://api.whatsapp.com/send?phone=PHONE_NUMBER&text=$message")
+        startActivity(intent)
+    }
+}
 
 
 
