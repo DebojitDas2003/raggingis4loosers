@@ -1,5 +1,8 @@
+import Database_manager.Database_manager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.adds.raggingis4loosers.R
+import com.adds.raggingis4loosers.activity.DatabaseManager
 import java.sql.Connection
 import java.sql.ResultSet
 import java.sql.SQLException

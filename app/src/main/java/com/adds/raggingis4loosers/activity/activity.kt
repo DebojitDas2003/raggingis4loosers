@@ -1,11 +1,13 @@
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.adds.raggingis4loosers.R
+import com.adds.raggingis4loosers.activity.DatabaseManager
 import java.sql.Connection
 import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
 
-class YourActivity : AppCompatActivity() {
+public final class YourActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,4 +33,8 @@ class YourActivity : AppCompatActivity() {
             }
         }
     }
+}
+
+class Databasemanager {
+
 }
