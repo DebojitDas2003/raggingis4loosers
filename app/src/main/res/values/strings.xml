@@ -1,3 +1,43 @@
-<resources>
-    <string name="app_name">raggingis4loosers</string>
-</resources>
+ <resources>
+     <string name="app_name">AntiRape</string>
+
+    <string name="action_settings">Settings</string>
+    <!-- Theme Settings Category -->
+    <string name="theme_settings_title">Theme Settings</string>
+
+    <!-- Allow Access Category -->
+    <string name="allow_access_title">Allow Access</string>
+    <string name="allow_access_summary">Allow access to a specific feature</string>
+
+    <!-- Hide as Calculator Category -->
+    <string name="hide_as_calculator_title">Hide as Calculator</string>
+    <string name="hide_as_calculator_summary">Hide the app icon as a calculator</string>
+
+    <!-- Check Update Category -->
+    <string name="check_update_title">Check Update</string>
+    <string name="check_update_summary">Check if there are any updates available</string>
+
+    <!-- About Category -->
+    <string name="about_title">About</string>
+    <string name="about_summary">View app information and version</string>
+
+    <!-- ListPreference Dialog Title -->
+    <string name="theme_list_dialog_title">Choose App Theme</string>
+
+    <!-- ListPreference Entry Labels -->
+    <string-array name="theme_entries">
+        <item>Light Theme</item>
+        <item>Dark Theme</item>
+        <item>System Default</item>
+    </string-array>
+
+    <!-- ListPreference Entry Values -->
+    <string-array name="theme_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>system_default</item>
+    </string-array>
+
+     <string name="sos">Your SOS Text Here</string>
+
+ </resources>

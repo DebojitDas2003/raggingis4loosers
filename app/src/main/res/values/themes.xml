@@ -1,5 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Material3.DayNight.NoActionBar" parent="Theme.Material3.DayNight">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- primary band color-->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!--secondary brand colour-->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!--status bar colour-->
+        <item name="android:statusBarColor" >@color/lavender</item>
+    </style>
 
-    <style name="Theme.Raggingis4loosers" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Antirape" parent="Base.Theme.Antirape" />
 </resources>

@@ -1,0 +1,68 @@
+ <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Theme Settings Category -->
+    <PreferenceCategory
+        android:title="Theme Settings">
+
+        <!-- ListPreference for selecting the app theme -->
+        <ListPreference
+            android:key="pref_theme"
+            android:title="App Theme"
+            android:summary="Choose the app's theme"
+            android:defaultValue="light"
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/theme_values" />
+
+    </PreferenceCategory>
+
+    <!-- Allow Access Category -->
+    <PreferenceCategory
+        android:title="Allow Access">
+
+        <!-- SwitchPreference for enabling access to a feature -->
+        <SwitchPreference
+            android:key="pref_allow_access"
+            android:title="Allow Access"
+            android:summary="Allow access to a specific feature"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <!-- Hide as Calculator Category -->
+    <PreferenceCategory
+        android:title="Hide as Calculator">
+
+        <!-- SwitchPreference for enabling the hide as calculator feature -->
+        <SwitchPreference
+            android:key="pref_hide_as_calculator"
+            android:title="Hide as Calculator"
+            android:summary="Hide the app icon as a calculator"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <!-- Check Update Category -->
+    <PreferenceCategory
+        android:title="Check Update">
+
+        <!-- Preference to manually check for updates -->
+        <Preference
+            android:title="Check for Updates"
+            android:summary="Check if there are any updates available"
+            android:key="pref_check_update" />
+
+    </PreferenceCategory>
+
+    <!-- About Category -->
+    <PreferenceCategory
+        android:title="About">
+
+        <!-- Preference for displaying app information -->
+        <Preference
+            android:title="About App"
+            android:summary="View app information and version"
+            android:key="pref_about_app" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

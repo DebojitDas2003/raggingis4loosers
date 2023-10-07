@@ -1,4 +1,4 @@
-package com.adds.raggingis4loosers.ui.theme
+package com.adds.antirape.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
