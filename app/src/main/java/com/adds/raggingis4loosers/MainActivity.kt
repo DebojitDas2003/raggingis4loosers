@@ -1,4 +1,4 @@
-package com.adds.antirape
+package com.adds.raggingis4loosers
 
 import android.Manifest
 import android.content.Intent
