@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1039876040013",
+    "project_id": "raggingis4loosers",
+    "storage_bucket": "raggingis4loosers.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039876040013:android:8df8eacc29e7ec67938304",
+        "android_client_info": {
+          "package_name": "com.adds.raggingis4loosers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-X_GVqiKXqD7ppwDdZBKY_NKQXlqnwuc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
