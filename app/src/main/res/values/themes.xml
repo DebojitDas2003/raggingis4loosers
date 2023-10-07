@@ -4,8 +4,8 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <!-- primary band color-->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimary">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/purple_500</item>
+        <item name="colorOnPrimary">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!--secondary brand colour-->
         <item name="colorSecondary">@color/teal_200</item>
@@ -15,5 +15,5 @@
         <item name="android:statusBarColor" >@color/lavender</item>
     </style>
 
-    <style name="Theme.Antirape" parent="Base.Theme.Antirape" />
+    <style name="Theme.Antirape" parent="Base.Theme.raggingis4loosers" />
 </resources>
