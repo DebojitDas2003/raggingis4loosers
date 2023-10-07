@@ -1,5 +1,5 @@
  <resources>
-     <string name="app_name">AntiRape</string>
+     <string name="app_name">Raggingis4loosers</string>
 
     <string name="action_settings">Settings</string>
     <!-- Theme Settings Category -->
@@ -38,6 +38,6 @@
         <item>system_default</item>
     </string-array>
 
-     <string name="sos">Your SOS Text Here</string>
+     <string name="sos">SOS</string>
 
  </resources>

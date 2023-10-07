@@ -39,6 +39,7 @@
         android:layout_height="220dp"
         android:background="@drawable/roundbutton"
         android:text="@string/sos"
+        android:onClick="startRecording"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
         android:textStyle="bold"
