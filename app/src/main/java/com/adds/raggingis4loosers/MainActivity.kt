@@ -1,13 +1,10 @@
 package com.adds.raggingis4loosers
+
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.hardware.camera2.CameraAccessException
-import android.hardware.camera2.CameraCaptureSession
-import android.hardware.camera2.CameraDevice
-import android.hardware.camera2.CameraManager
-import android.hardware.camera2.CaptureRequest
-import android.hardware.camera2.TotalCaptureResult
+import android.hardware.camera2.*
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.Environment
@@ -24,23 +21,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.adds.raggingis4loosers.R
-//import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
-import com.adds.raggingis4loosers.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private val REQUEST_RECORD_AUDIO_PERMISSION = 200
     private lateinit var speechRecognizer: SpeechRecognizer
-    private lateinit var binding: ActivityMainBinding
 
-    private lateinit var cameraDevice: CameraDevice
-    private lateinit var cameraCaptureSession: CameraCaptureSession
+    private var cameraDevice: CameraDevice? = null
+    private var cameraCaptureSession: CameraCaptureSession? = null
     private lateinit var mediaRecorder: MediaRecorder
     private lateinit var videoFile: File
     private lateinit var backgroundHandler: Handler
@@ -142,7 +134,7 @@ class MainActivity : AppCompatActivity() {
 
             // Update UI and reset recording state
             isRecording = false
-            button.text = "Start Recording"
+            findViewById<Button>(R.id.button).text = "Start Recording"
         } catch (e: Exception) {
             Log.e(TAG, "Error stopping recording: ${e.message}")
         }
@@ -150,28 +142,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun closeCamera() {
         try {
-            var cameraCaptureSession: CameraCaptureSession? = null
-
             // Close the camera capture session
-            if (cameraCaptureSession != null) {
-                cameraCaptureSession.close()
-            }
+            cameraCaptureSession?.close()
+            cameraCaptureSession = null
 
             // Close the camera device
-            cameraDevice.close()
+            cameraDevice?.close()
             cameraDevice = null
 
             // Release the media recorder
             mediaRecorder.release()
-            mediaRecorder = null
+            mediaRecorder = MediaRecorder()
 
             // Release the background thread and handler
             backgroundThread.quitSafely()
             backgroundThread.join()
 
             // Reset the background thread and handler
-            backgroundThread = null
-            backgroundHandler = null
+            backgroundThread = HandlerThread("CameraBackground")
+            backgroundThread.start()
+            backgroundHandler = Handler(backgroundThread.looper)
         } catch (e: Exception) {
             Log.e(TAG, "Error closing camera: ${e.message}")
         }
@@ -182,14 +172,7 @@ class MainActivity : AppCompatActivity() {
         speechRecognizer.destroy()
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_layout, fragment)
-        fragmentTransaction.commit()
-    }
-
-    private val TAG = "HomePage"
+    private val TAG = "MainActivity"
 
     private fun startRecording() {
         if (checkPermissions()) {
@@ -207,38 +190,12 @@ class MainActivity : AppCompatActivity() {
                 // Start recording
                 mediaRecorder.start()
                 isRecording = true
-                button.text = "Stop Recording"
+                findViewById<Button>(R.id.button).text = "Stop Recording"
             } catch (e: Exception) {
                 Log.e(TAG, "Error starting recording: ${e.message}")
             }
         }
     }
-
-    private fun setupMediaRecorder() {
-        mediaRecorder = MediaRecorder()
-
-        // Set the output file path
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val videoFilePath = "${getExternalFilesDir(Environment.DIRECTORY_MOVIES)}/$timeStamp.mp4"
-        mediaRecorder.setOutputFile(videoFilePath)
-
-        // Set video and audio sources
-        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-
-        // Set video and audio output formats and encoders
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-
-        // Set video size and frame rate (adjust according to your needs)
-        mediaRecorder.setVideoSize(1280, 720)
-        mediaRecorder.setVideoFrameRate(30)
-
-        // Prepare the MediaRecorder
-        mediaRecorder.prepare()
-    }
-
 
     private fun setupMediaRecorder() {
         mediaRecorder = MediaRecorder()
@@ -274,37 +231,47 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.CAMERA
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            // Request camera permission
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                PERMISSION_REQUEST_CODE
+            )
             return
         }
-        cameraManager.openCamera(cameraId, object : CameraDevice.StateCallback() {
-            override fun onOpened(camera: CameraDevice) {
-                // The camera is now open and ready for use
-                cameraDevice = camera
-                createCaptureSession()
-            }
 
-            override fun onDisconnected(camera: CameraDevice) {
-                // Handle camera disconnect (e.g., release resources)
-            }
+        try {
+            cameraManager.openCamera(cameraId, object : CameraDevice.StateCallback() {
+                override fun onOpened(camera: CameraDevice) {
+                    // The camera is now open and ready for use
+                    cameraDevice = camera
+                    createCaptureSession()
+                }
 
-            override fun onError(camera: CameraDevice, error: Int) {
-                // Handle camera error (e.g., release resources)
-            }
-        }, null)
+                override fun onDisconnected(camera: CameraDevice) {
+                    // Handle camera disconnect (e.g., release resources)
+                    cameraDevice?.close()
+                    cameraDevice = null
+                }
+
+                override fun onError(camera: CameraDevice, error: Int) {
+                    // Handle camera error (e.g., release resources)
+                    cameraDevice?.close()
+                    cameraDevice = null
+                }
+            }, null)
+        } catch (e: CameraAccessException) {
+            Log.e(TAG, "Error opening camera: ${e.message}")
+        }
     }
+
+
 
     private fun checkPermissions(): Boolean {
         val permissions = arrayOf(
-            android.Manifest.permission.CAMERA,
-            android.Manifest.permission.RECORD_AUDIO,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
         val notGrantedPermissions = permissions.filter {
@@ -319,10 +286,8 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-companion object {
-    private const val TAG = "MainActivity"
-    private const val PERMISSION_REQUEST_CODE = 123
+    companion object {
+        private const val TAG = "MainActivity"
+        private const val PERMISSION_REQUEST_CODE = 123
+    }
 }
-}
-
-
