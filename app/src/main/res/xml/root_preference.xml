@@ -1,4 +1,5 @@
- <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Theme Settings Category -->
     <PreferenceCategory
@@ -43,26 +44,8 @@
 
     <!-- Check Update Category -->
     <PreferenceCategory
-        android:title="Check Update">
-
-        <!-- Preference to manually check for updates -->
-        <Preference
-            android:title="Check for Updates"
-            android:summary="Check if there are any updates available"
-            android:key="pref_check_update" />
-
-    </PreferenceCategory>
+        android:title="Check Update"/>
 
     <!-- About Category -->
-    <PreferenceCategory
-        android:title="About">
-
-        <!-- Preference for displaying app information -->
-        <Preference
-            android:title="About App"
-            android:summary="View app information and version"
-            android:key="pref_about_app" />
-
-    </PreferenceCategory>
 
 </PreferenceScreen>

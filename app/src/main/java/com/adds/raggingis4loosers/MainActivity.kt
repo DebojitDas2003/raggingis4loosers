@@ -300,6 +300,42 @@ class MainActivity : AppCompatActivity() {
         }, null)
     }
 
+    private fun createCaptureSession() {
+        try {
+            // Create a list of surfaces you want to include in the capture session
+            val surfaces = listOf(surfaceView.holder.surface) // Replace surfaceView with your SurfaceView or target surface
+
+            // Create a CaptureRequest.Builder for the camera
+            val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+
+            // Add the surfaces to the capture request
+            for (surface in surfaces) {
+                captureRequestBuilder.addTarget(surface)
+            }
+
+            // Create a CaptureSession.StateCallback
+            val sessionCallback = object : CameraCaptureSession.StateCallback() {
+                override fun onConfigured(session: CameraCaptureSession) {
+                    // The capture session is configured successfully.
+                    // You can start capturing frames or preview here.
+                    cameraCaptureSession = session
+                    // Start the preview here or whatever you want to do with the camera.
+                }
+
+                override fun onConfigureFailed(session: CameraCaptureSession) {
+                    // Configuration of the capture session failed.
+                    // Handle the error.
+                }
+            }
+
+            // Create the capture session with the specified surfaces and callback
+            cameraDevice.createCaptureSession(surfaces, sessionCallback, null)
+        } catch (e: CameraAccessException) {
+            e.printStackTrace()
+        }
+    }
+
+
     private fun checkPermissions(): Boolean {
         val permissions = arrayOf(
             android.Manifest.permission.CAMERA,
